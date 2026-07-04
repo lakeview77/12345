@@ -5,12 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="refresh" content="7200">
 <title>LAKE VIEW — FOOD MENU</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#101b18;
+    --ink:#ece5d6;
+    --dim:#8d9a90;
     --gold:#c9a86a;
+    --gold-soft:rgba(201,168,106,.35);
     --line:rgba(201,168,106,.22);
+    --red:#c96a6a;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{width:100%;height:100%;overflow:hidden;cursor:none}
@@ -18,9 +22,11 @@
     background:
       radial-gradient(ellipse at 50% 120%, #1d322a 0%, transparent 55%),
       radial-gradient(ellipse at 50% -30%, #1a2a24 0%, var(--bg) 60%);
+    color:var(--ink);
+    font-family:'Noto Sans KR',sans-serif;
+    font-weight:300;
   }
 
-  /* ── 골드 프레임 ── */
   .frame{
     position:fixed; inset:1.4vw;
     border:1px solid var(--line);
@@ -33,40 +39,141 @@
   .frame::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
   .frame::after{bottom:-1px;right:-1px;border-left:none;border-top:none}
 
-  /* ── 슬라이드 공통 ── */
   .slide{
     position:absolute; inset:0;
     opacity:0;
     transition:opacity 1.3s ease;
     pointer-events:none;
-    background:#000;
   }
   .slide.on{opacity:1; z-index:2}
 
-  /* 음식 사진: 화면 꽉 채움 + 천천히 확대 */
-  .slide img{
+  /* ── 메뉴 슬라이드 ── */
+  .menu{
+    display:flex; flex-direction:column;
+    padding:3vw 4.5vw 2.6vw;
+  }
+  header{text-align:center; margin-bottom:1.2vw}
+  .eyebrow{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1vw; letter-spacing:.55vw; color:var(--gold);
+    text-transform:uppercase;
+  }
+  .logo{
+    font-family:'Cormorant Garamond',serif;
+    font-size:3vw; font-weight:600;
+    letter-spacing:.9vw; margin:.15vw 0 .35vw;
+    text-indent:.9vw;
+  }
+  .logo-sub{
+    display:flex; align-items:center; justify-content:center; gap:1.2vw;
+    font-size:.85vw; letter-spacing:.4vw; color:var(--dim);
+  }
+  .logo-sub::before,.logo-sub::after{
+    content:""; width:6vw; height:1px;
+    background:linear-gradient(to right, transparent, var(--gold-soft));
+  }
+  .logo-sub::after{background:linear-gradient(to left, transparent, var(--gold-soft))}
+
+  .set-banner{
+    margin:0 auto 1.4vw;
+    width:72%;
+    border:1px solid var(--gold-soft);
+    padding:.8vw 2vw;
+    display:flex; align-items:baseline; justify-content:center; gap:1.6vw;
+    background:linear-gradient(to right, transparent, rgba(201,168,106,.07), transparent);
+  }
+  .set-banner .t{
+    font-family:'Noto Serif KR',serif;
+    font-size:1.5vw; font-weight:600; letter-spacing:.15vw;
+    white-space:nowrap;
+  }
+  .set-banner .t::before{
+    content:"SET"; color:#14201b; background:var(--gold);
+    font-family:'Noto Sans KR',sans-serif;
+    font-size:.72vw; font-weight:700; letter-spacing:.1vw;
+    padding:.16vw .55vw .12vw; border-radius:.15vw;
+    margin-right:.8vw; vertical-align:.3vw;
+  }
+  .set-banner .d{font-size:.95vw; color:var(--dim)}
+  .set-banner .p{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.7vw; font-weight:600; color:var(--gold);
+    white-space:nowrap;
+  }
+
+  main{flex:1; display:grid; grid-template-columns:1fr 1fr 1fr; gap:0 3.4vw; min-height:0}
+  h2{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.65vw; font-weight:600; letter-spacing:.28vw;
+    color:var(--gold); text-transform:uppercase;
+    padding-bottom:.5vw; margin-bottom:.7vw;
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  h2 .ko{
+    float:right;
+    font-family:'Noto Serif KR',serif;
+    font-size:.95vw; font-weight:400; letter-spacing:.2vw;
+    color:var(--dim); transform:translateY(.5vw);
+  }
+  h2::after{
+    content:""; position:absolute; left:0; bottom:-1px;
+    width:3.2vw; height:1px; background:var(--gold);
+  }
+  ul + h2{margin-top:1.3vw}
+
+  ul{list-style:none}
+  li{padding:.42vw 0}
+  li .row{display:flex; align-items:baseline}
+  li .n{white-space:nowrap; font-size:1.22vw; font-weight:400}
+  li .dots{
+    flex:1; margin:0 .9vw;
+    border-bottom:1px dotted rgba(201,168,106,.3);
+    transform:translateY(-.3vw);
+  }
+  li .p{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.35vw; font-weight:500; color:var(--gold);
+    font-variant-numeric:tabular-nums;
+  }
+  li .desc{
+    font-size:.82vw; color:var(--dim); font-weight:300; margin-top:.1vw;
+  }
+  li.best .n::before{
+    content:"BEST";
+    font-size:.66vw; font-weight:700; letter-spacing:.1vw;
+    color:#14201b; background:var(--gold);
+    padding:.14vw .5vw .1vw; border-radius:.15vw;
+    margin-right:.65vw; vertical-align:.2vw;
+  }
+  .hot{color:var(--red); font-size:.95vw; margin-left:.35vw}
+
+  footer{
+    margin-top:1.4vw; padding-top:.9vw;
+    border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:.92vw; color:var(--dim); letter-spacing:.12vw;
+  }
+  footer .note b{color:var(--gold); font-weight:500}
+  footer .page{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1vw; letter-spacing:.3vw; color:var(--gold-soft);
+  }
+
+  /* ── 사진 슬라이드 (자막 없음) ── */
+  .photo{background:#000}
+  .photo img{
     position:absolute; inset:0;
     width:100%; height:100%;
     object-fit:cover;
   }
-  .slide.on img{
+  .photo.on img{
     animation:kenburns 9s ease-out forwards;
   }
   @keyframes kenburns{
     from{transform:scale(1)}
     to{transform:scale(1.07)}
   }
-
-  /* 메뉴판 사진: 잘리지 않게 전체 표시 */
-  .board{background:#0d1512}
-  .board img{
-    object-fit:contain;
-  }
-  .board.on img{
-    animation:none;
-  }
-
-  /* 워터마크 (로고만, 요리 이름 없음) */
   .wm{
     position:absolute; right:4vw; bottom:3.2vw; text-align:right;
     font-family:'Cormorant Garamond',serif;
@@ -79,7 +186,7 @@
     color:rgba(201,168,106,.95); margin-top:.2vw;
   }
 
-  /* 인트로 */
+  /* ── 인트로 ── */
   .intro .shade{
     position:absolute; inset:0;
     background:
@@ -91,18 +198,14 @@
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     text-align:center; color:#fff; z-index:3;
   }
-  .intro .eyebrow{
-    font-family:'Cormorant Garamond',serif;
-    font-size:1.2vw; letter-spacing:.55vw; color:var(--gold);
-    text-transform:uppercase;
-  }
-  .intro .big{
+  .intro .center .eyebrow{font-size:1.2vw}
+  .intro .center .big{
     font-family:'Cormorant Garamond',serif;
     font-size:6.5vw; font-weight:600; letter-spacing:1.4vw; text-indent:1.4vw;
     text-shadow:0 .3vw 2vw rgba(0,0,0,.7);
     margin:.5vw 0;
   }
-  .intro .sub{
+  .intro .center .sub{
     font-size:1.05vw; letter-spacing:.6vw; color:rgba(255,255,255,.85);
     font-family:'Cormorant Garamond',serif;
   }
@@ -112,8 +215,8 @@
 
 <div class="frame"></div>
 
-<!-- 0. 인트로 : 매장 외관 -->
-<div class="slide intro on" data-dur="7">
+<!-- ═══ 0. 인트로 : 매장 외관 ═══ -->
+<div class="slide photo intro on" data-dur="7">
   <img src="f0.jpg" alt="">
   <div class="shade"></div>
   <div class="center">
@@ -123,35 +226,162 @@
   </div>
 </div>
 
-<!-- 1. 메뉴판 : 세트 · 샐러드 · 피자 -->
-<div class="slide board" data-dur="18">
-  <img src="m1.jpg" alt="">
+<!-- ═══ 1. 메뉴 페이지 1 ═══ -->
+<div class="slide menu" data-dur="18">
+  <header>
+    <div class="eyebrow">Dessert &amp; Brunch</div>
+    <div class="logo">LAKE VIEW</div>
+    <div class="logo-sub">FOOD MENU</div>
+  </header>
+  <div class="set-banner">
+    <span class="t">커플세트</span>
+    <span class="d">샐러드 · 피자 · 파스타 中 2 &nbsp;+&nbsp; 아메리카노 · 아이스티 · 탄산음료 中 2</span>
+    <span class="p">45,000</span>
+  </div>
+  <main>
+    <section>
+      <h2>Salad<span class="ko">샐러드</span></h2>
+      <ul>
+        <li><div class="row"><span class="n">콥 샐러드</span><span class="dots"></span><span class="p">18,000</span></div>
+            <div class="desc">다양한 채소와 야채, 닭가슴살</div></li>
+        <li><div class="row"><span class="n">케이준 치킨 샐러드</span><span class="dots"></span><span class="p">18,000</span></div>
+            <div class="desc">케이준 치킨, 다양한 채소와 야채</div></li>
+        <li><div class="row"><span class="n">카프레제 샐러드</span><span class="dots"></span><span class="p">18,000</span></div>
+            <div class="desc">토마토, 생 모짜렐라 치즈, 다양한 채소</div></li>
+      </ul>
+      <h2>Tonkasu<span class="ko">돈까스</span></h2>
+      <ul>
+        <li><div class="row"><span class="n">등심 돈까스</span><span class="dots"></span><span class="p">15,000</span></div>
+            <div class="desc">샐러드, 감자튀김, 등심 돈까스</div></li>
+        <li><div class="row"><span class="n">치즈 돈까스</span><span class="dots"></span><span class="p">16,000</span></div>
+            <div class="desc">샐러드, 감자튀김, 치즈 돈까스</div></li>
+      </ul>
+    </section>
+    <section>
+      <h2>Pizza<span class="ko">피자</span></h2>
+      <ul>
+        <li class="best"><div class="row"><span class="n">시금치 피자</span><span class="dots"></span><span class="p">19,000</span></div>
+            <div class="desc">오징어 먹물 도우, 토마토 소스, 시금치</div></li>
+        <li><div class="row"><span class="n">페퍼로니 피자</span><span class="dots"></span><span class="p">19,000</span></div>
+            <div class="desc">오징어 먹물 도우, 토마토 소스, 페퍼로니</div></li>
+        <li><div class="row"><span class="n">마르게리따 피자</span><span class="dots"></span><span class="p">19,000</span></div>
+            <div class="desc">오징어 먹물 도우, 토마토 소스, 토마토, 바질</div></li>
+        <li><div class="row"><span class="n">깔리포르니아 피자</span><span class="dots"></span><span class="p">19,000</span></div>
+            <div class="desc">오징어 먹물 도우, 유자 소스, 사과, 꿀, 아몬드</div></li>
+        <li><div class="row"><span class="n">고르곤졸라 피자</span><span class="dots"></span><span class="p">19,000</span></div>
+            <div class="desc">오징어 먹물 도우, 유자 소스, 꿀, 아몬드</div></li>
+        <li><div class="row"><span class="n">고구마무스 피자</span><span class="dots"></span><span class="p">19,000</span></div>
+            <div class="desc">오징어 먹물 도우, 토마토 소스, 고구마 무스, 랜치</div></li>
+      </ul>
+    </section>
+    <section>
+      <h2>Pilaf<span class="ko">필라프</span></h2>
+      <ul>
+        <li><div class="row"><span class="n">목심 필라프</span><span class="dots"></span><span class="p">20,000</span></div>
+            <div class="desc">다양한 채소, 소고기 목심</div></li>
+        <li><div class="row"><span class="n">새우 햄 필라프</span><span class="dots"></span><span class="p">20,000</span></div>
+            <div class="desc">자숙새우, 알새우, 파프리카, 계란</div></li>
+      </ul>
+      <h2>Risotto<span class="ko">리조또</span></h2>
+      <ul>
+        <li><div class="row"><span class="n">버섯 크림 리조또</span><span class="dots"></span><span class="p">20,000</span></div>
+            <div class="desc">크림소스, 다양한 버섯</div></li>
+        <li><div class="row"><span class="n">오징어 먹물 리조또<span class="hot">🌶</span></span><span class="dots"></span><span class="p">20,000</span></div>
+            <div class="desc">오징어 먹물 소스, 오징어링, 페페론치노</div></li>
+      </ul>
+    </section>
+  </main>
+  <footer>
+    <div class="note">시그니처 <b>오징어 먹물 도우</b> 피자</div>
+    <div class="page">— FOOD —</div>
+    <div class="note">🌶 매운맛 &nbsp;·&nbsp; LAKE VIEW</div>
+  </footer>
 </div>
 
-<!-- 2. 음식 사진 -->
-<div class="slide" data-dur="6"><img src="f1.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
-<div class="slide" data-dur="6"><img src="f7.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
-<div class="slide" data-dur="6"><img src="f6.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
-<div class="slide" data-dur="6"><img src="f2.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
-<div class="slide" data-dur="6"><img src="f9.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
-<div class="slide" data-dur="6"><img src="f12.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
-<div class="slide" data-dur="6"><img src="f3.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
-<div class="slide" data-dur="6"><img src="f14.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<!-- ═══ 2. 음식 사진 A (자막 없음) ═══ -->
+<div class="slide photo" data-dur="6"><img src="f1.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f7.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f6.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f2.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f9.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f12.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f3.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f14.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
 
-<!-- 3. 메뉴판 : 파스타 · 리조또 · 돈까스 · 필라프 -->
-<div class="slide board" data-dur="18">
-  <img src="m2.jpg" alt="">
+<!-- ═══ 3. 메뉴 페이지 2 : 파스타 ═══ -->
+<div class="slide menu" data-dur="18">
+  <header>
+    <div class="eyebrow">Dessert &amp; Brunch</div>
+    <div class="logo">LAKE VIEW</div>
+    <div class="logo-sub">PASTA MENU</div>
+  </header>
+  <div class="set-banner">
+    <span class="t">커플세트</span>
+    <span class="d">샐러드 · 피자 · 파스타 中 2 &nbsp;+&nbsp; 아메리카노 · 아이스티 · 탄산음료 中 2</span>
+    <span class="p">45,000</span>
+  </div>
+  <main>
+    <section>
+      <h2>Oil Pasta<span class="ko">오일</span></h2>
+      <ul>
+        <li><div class="row"><span class="n">알리오 올리오<span class="hot">🌶</span></span><span class="dots"></span><span class="p">19,000</span></div>
+            <div class="desc">구운 마늘, 올리브유, 페퍼론치노 고추</div></li>
+        <li><div class="row"><span class="n">봉골레 파스타<span class="hot">🌶</span></span><span class="dots"></span><span class="p">19,000</span></div>
+            <div class="desc">다양한 조개, 올리브유, 조개육수, 화이트 와인, 파슬리</div></li>
+      </ul>
+      <h2>Tomato<span class="ko">토마토</span></h2>
+      <ul>
+        <li><div class="row"><span class="n">토마토 파스타</span><span class="dots"></span><span class="p">19,000</span></div>
+            <div class="desc">다양한 채소, 방울토마토, 토마토 소스</div></li>
+        <li><div class="row"><span class="n">아라비아타<span class="hot">🌶</span></span><span class="dots"></span><span class="p">19,000</span></div>
+            <div class="desc">토마토소스, 채소, 베이컨, 청양고추, 페페론치노</div></li>
+        <li><div class="row"><span class="n">해산물 토마토 파스타</span><span class="dots"></span><span class="p">19,000</span></div>
+            <div class="desc">토마토소스, 다양한 채소와 해산물</div></li>
+      </ul>
+    </section>
+    <section>
+      <h2>Cream Pasta<span class="ko">크림</span></h2>
+      <ul>
+        <li class="best"><div class="row"><span class="n">까르보나라</span><span class="dots"></span><span class="p">19,000</span></div>
+            <div class="desc">크림소스, 차돌박이, 다양한 버섯</div></li>
+        <li><div class="row"><span class="n">빠네 크림 파스타</span><span class="dots"></span><span class="p">23,000</span></div>
+            <div class="desc">브레드볼, 크림소스, 차돌박이, 다양한 버섯</div></li>
+        <li><div class="row"><span class="n">로제 감베리</span><span class="dots"></span><span class="p">20,000</span></div>
+            <div class="desc">로제소스, 새우, 다양한 채소</div></li>
+        <li><div class="row"><span class="n">로제 빠네 파스타</span><span class="dots"></span><span class="p">24,000</span></div>
+            <div class="desc">브레드볼, 로제소스, 새우, 다양한 채소</div></li>
+        <li><div class="row"><span class="n">고추장 크림 파스타<span class="hot">🌶</span></span><span class="dots"></span><span class="p">19,000</span></div>
+            <div class="desc">고추장, 크림소스, 차돌박이, 다양한 버섯</div></li>
+      </ul>
+    </section>
+    <section>
+      <h2>Best<span class="ko">인기 메뉴</span></h2>
+      <ul>
+        <li class="best"><div class="row"><span class="n">시금치 피자</span><span class="dots"></span><span class="p">19,000</span></div>
+            <div class="desc">오징어 먹물 도우, 토마토 소스, 시금치</div></li>
+        <li class="best"><div class="row"><span class="n">까르보나라</span><span class="dots"></span><span class="p">19,000</span></div>
+            <div class="desc">크림소스, 차돌박이, 다양한 버섯</div></li>
+        <li class="best"><div class="row"><span class="n">커플세트</span><span class="dots"></span><span class="p">45,000</span></div>
+            <div class="desc">메인 2가지 + 음료 2잔 구성</div></li>
+      </ul>
+    </section>
+  </main>
+  <footer>
+    <div class="note">모든 파스타 <b>면 추가 가능</b> · 문의해주세요</div>
+    <div class="page">— PASTA —</div>
+    <div class="note">🌶 매운맛 &nbsp;·&nbsp; LAKE VIEW</div>
+  </footer>
 </div>
 
-<!-- 4. 음식 사진 -->
-<div class="slide" data-dur="6"><img src="f16.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
-<div class="slide" data-dur="6"><img src="f10.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
-<div class="slide" data-dur="6"><img src="f15.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
-<div class="slide" data-dur="6"><img src="f13.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
-<div class="slide" data-dur="6"><img src="f5.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
-<div class="slide" data-dur="6"><img src="f11.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
-<div class="slide" data-dur="6"><img src="f4.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
-<div class="slide" data-dur="6"><img src="f8.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<!-- ═══ 4. 음식 사진 B (자막 없음) ═══ -->
+<div class="slide photo" data-dur="6"><img src="f16.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f10.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f15.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f13.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f5.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f11.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f4.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f8.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
 
 <script>
   var slides = document.querySelectorAll('.slide');
