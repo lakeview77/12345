@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="refresh" content="3600">
+<meta http-equiv="refresh" content="7200">
 <title>LAKE VIEW — FOOD MENU</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700&family=Noto+Sans+KR:wght@400;500;700&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
 <style>
@@ -25,6 +25,7 @@
     font-family:'Noto Sans KR',sans-serif;
   }
 
+  /* ── 프레임 ── */
   .frame{
     position:fixed; inset:1.1vw;
     border:1px solid var(--line);
@@ -35,16 +36,20 @@
     border:1px solid var(--line-soft);
   }
 
+  /* ── 슬라이드 공통 ── */
   .slide{
     position:absolute; inset:0;
-    display:flex; flex-direction:column;
-    padding:2.2vw 4.2vw 2vw;
     opacity:0;
-    transition:opacity 1.2s ease;
+    transition:opacity 1.3s ease;
     pointer-events:none;
   }
   .slide.on{opacity:1; z-index:2}
 
+  /* ══════════ 메뉴 슬라이드 (밝은판) ══════════ */
+  .menu{
+    display:flex; flex-direction:column;
+    padding:2.2vw 4.2vw 2vw;
+  }
   header{text-align:center; margin-bottom:.9vw}
   .eyebrow{
     font-family:'Cormorant Garamond',serif;
@@ -153,7 +158,7 @@
     font-size:1.15vw; letter-spacing:.35vw; color:var(--gold);
   }
 
-  /* ── 2페이지 전용: 글자 더 크게 ── */
+  /* 파스타 페이지: 글자 더 크게 */
   .xl main{gap:0 3vw}
   .xl h2{font-size:2.4vw}
   .xl h2 .ko{font-size:1.3vw}
@@ -163,14 +168,77 @@
   .xl li .desc{font-size:1.35vw; margin-top:.15vw}
   .xl li.best .n::before{font-size:1.1vw; padding:.25vw .7vw .2vw; vertical-align:.5vw}
   .xl .hot{font-size:1.55vw}
+
+  /* ══════════ 사진 슬라이드 ══════════ */
+  .photo{background:#000}
+  .photo img{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+  }
+  .photo.on img{
+    animation:kenburns 9s ease-out forwards;
+  }
+  @keyframes kenburns{
+    from{transform:scale(1)}
+    to{transform:scale(1.07)}
+  }
+  .wm{
+    position:absolute; right:4vw; bottom:3.2vw; text-align:right;
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.3vw; letter-spacing:.4vw; color:rgba(255,255,255,.85);
+    text-shadow:0 .15vw .8vw rgba(0,0,0,.6);
+    z-index:3;
+  }
+  .wm small{
+    display:block; font-size:.68vw; letter-spacing:.35vw;
+    color:#e3c088; margin-top:.2vw;
+  }
+
+  /* ══════════ 인트로 ══════════ */
+  .intro .shade{
+    position:absolute; inset:0;
+    background:
+      linear-gradient(to top, rgba(20,15,8,.75), transparent 45%),
+      radial-gradient(ellipse at center, transparent 30%, rgba(20,15,8,.5) 100%);
+  }
+  .intro .center{
+    position:absolute; inset:0; z-index:3;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; color:#fff;
+  }
+  .intro .center .eyebrow{
+    font-size:1.2vw; color:#e3c088;
+  }
+  .intro .center .big{
+    font-family:'Cormorant Garamond',serif;
+    font-size:6.5vw; font-weight:600; letter-spacing:1.4vw; text-indent:1.4vw;
+    text-shadow:0 .3vw 2vw rgba(0,0,0,.7);
+    margin:.5vw 0;
+  }
+  .intro .center .sub{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.1vw; letter-spacing:.7vw; color:rgba(255,255,255,.9);
+  }
 </style>
 </head>
 <body>
 
 <div class="frame"></div>
 
-<!-- ═══════════ PAGE 1 : FOOD ═══════════ -->
-<div class="slide on">
+<!-- ═══ 0. 인트로 : 매장 외관 ═══ -->
+<div class="slide photo intro on" data-dur="7">
+  <img src="f0.jpg" alt="">
+  <div class="shade"></div>
+  <div class="center">
+    <div class="eyebrow">Dessert &amp; Brunch</div>
+    <div class="big">LAKE VIEW</div>
+    <div class="sub">FOOD MENU</div>
+  </div>
+</div>
+
+<!-- ═══ 1. 메뉴판 1 : 밝은판 큰글씨 ═══ -->
+<div class="slide menu" data-dur="18">
   <header>
     <div class="eyebrow">Dessert &amp; Brunch</div>
     <div class="logo">LAKE VIEW</div>
@@ -247,8 +315,18 @@
   </footer>
 </div>
 
-<!-- ═══════════ PAGE 2 : PASTA ═══════════ -->
-<div class="slide xl">
+<!-- ═══ 2. 음식 사진 A ═══ -->
+<div class="slide photo" data-dur="6"><img src="f1.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f7.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f6.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f2.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f9.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f12.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f3.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f14.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+
+<!-- ═══ 3. 메뉴판 2 : 파스타 (더 큰 글씨) ═══ -->
+<div class="slide menu xl" data-dur="18">
   <header>
     <div class="eyebrow">Dessert &amp; Brunch</div>
     <div class="logo">LAKE VIEW</div>
@@ -318,18 +396,36 @@
   </footer>
 </div>
 
-<script>
-  var DURATION = 15;
+<!-- ═══ 4. 음식 사진 B ═══ -->
+<div class="slide photo" data-dur="6"><img src="f16.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f10.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f15.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f13.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f5.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f11.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f4.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
+<div class="slide photo" data-dur="6"><img src="f8.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
 
+<script>
   var slides = document.querySelectorAll('.slide');
   var current = 0;
 
-  function next(){
-    slides[current].classList.remove('on');
-    current = (current + 1) % slides.length;
-    slides[current].classList.add('on');
+  function show(i){
+    for(var k=0;k<slides.length;k++){
+      slides[k].classList.remove('on');
+    }
+    slides[i].classList.add('on');
+    var dur = parseInt(slides[i].getAttribute('data-dur')) || 8;
+    setTimeout(nextSlide, dur * 1000);
   }
-  setInterval(next, DURATION * 1000);
+  function nextSlide(){
+    current = (current + 1) % slides.length;
+    show(current);
+  }
+  (function(){
+    var dur = parseInt(slides[0].getAttribute('data-dur')) || 8;
+    setTimeout(nextSlide, dur * 1000);
+  })();
 </script>
 
 </body>
