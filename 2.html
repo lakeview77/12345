@@ -179,6 +179,8 @@
   .photo.on img{
     animation:kenburns 9s ease-out forwards;
   }
+  .board.on img{animation:none}
+  .board img{object-fit:contain; background:#0d1f18}
   @keyframes kenburns{
     from{transform:scale(1)}
     to{transform:scale(1.07)}
@@ -237,8 +239,13 @@
   </div>
 </div>
 
-<!-- ═══ 1. 메뉴판 1 : 밝은판 큰글씨 ═══ -->
-<div class="slide menu" data-dur="18">
+<!-- ═══ 1. 메뉴판 1 : 디자인 메뉴판 이미지 ═══ -->
+<div class="slide photo board" data-dur="35">
+  <img src="b1.jpg" alt="">
+</div>
+
+<!-- (예비) 밝은판 메뉴 1 : 사용 안 함 -->
+<div class="slide menu" data-dur="18" style="display:none">
   <header>
     <div class="eyebrow">Dessert &amp; Brunch</div>
     <div class="logo">LAKE VIEW</div>
@@ -407,7 +414,7 @@
 <div class="slide photo" data-dur="6"><img src="f8.jpg" alt=""><div class="wm">LAKE VIEW<small>DESSERT &amp; BRUNCH</small></div></div>
 
 <script>
-  var slides = document.querySelectorAll('.slide');
+  var slides = document.querySelectorAll('.slide:not([style*="display:none"])');
   var current = 0;
 
   function show(i){
